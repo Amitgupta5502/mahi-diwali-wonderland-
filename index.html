@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10091f">
+<title>Mahi's Diwali Wonderland 🪄</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#10091f;color:#fff0d2;font-family:'Playfair Display',serif;min-height:100vh;overflow-x:hidden}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0}
+.star{position:absolute;color:#ffe6ae;animation:twinkle 3s infinite}
+@keyframes twinkle{0%,100%{opacity:.15}50%{opacity:1}}
+.screen{display:none;position:relative;z-index:1;min-height:100vh;padding:35px 18px;align-items:center;justify-content:center;flex-direction:column;text-align:center}
+.screen.active{display:flex;animation:fade .9s ease}
+@keyframes fade{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+h1,h2,h3{font-family:'Cinzel',serif}
+h1{font-size:clamp(2rem,8vw,4rem)}
+.gold{color:#f6d58b;text-shadow:0 0 22px #c18b45}
+.eyebrow{font-size:11px;letter-spacing:3px;color:#d4b7ed;margin-bottom:20px}
+.description{max-width:520px;line-height:1.9;color:#d9cde8;margin:20px auto}
+.small{font-size:12px;color:#b9a8cb;margin-top:20px}
+.moon{position:absolute;top:7%;right:10%;font-size:65px;color:#f6d58b;text-shadow:0 0 25px gold}
+.castle{font-size:85px;margin:20px;filter:drop-shadow(0 0 22px #9c72d2)}
+.magic{font-size:55px;margin:25px;animation:float 3s infinite ease-in-out}
+@keyframes float{50%{transform:translateY(-15px)}}
+.btn{padding:15px 27px;border-radius:30px;border:1px solid #f6d58b;background:linear-gradient(120deg,#98602e,#f5d18a);color:#29162d;font-size:14px;font-weight:bold;cursor:pointer;margin:8px;transition:.3s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 0 25px #e4b85f}
+.secondary{background:#281b3b;color:#f6d58b;border:1px solid #b58bea}
+input{width:min(280px,90%);padding:15px;border-radius:12px;border:1px solid #d6b36e;background:#20162e;color:white;text-align:center;font-size:20px;letter-spacing:8px;outline:none;margin:15px}
+.menu{display:flex;flex-wrap:wrap;justify-content:center;max-width:650px;margin:20px auto;gap:10px}
+.menu button{background:#281a3d;color:#ffe8b8;border:1px solid #a985c9;border-radius:12px;padding:15px 20px;cursor:pointer;font-size:14px;transition:.3s}
+.menu button:hover{background:#53396b;transform:translateY(-4px)}
+.diyas{font-size:42px;display:flex;gap:25px;margin:25px}
+.diyas span{animation:float 3s infinite}
+.signature{color:#f6d58b;margin-top:25px}
+.card{width:min(100%,650px);padding:32px 24px;background:linear-gradient(145deg,#fff0d5,#e7d0a9);color:#493344;border:5px double #b38a4d;border-radius:9px;box-shadow:0 0 40px #b58b6344}
+.card h1{font-size:clamp(1.8rem,6vw,2.6rem)}
+.card .eyebrow{color:#88633f}
+.wax{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;margin:0 auto 20px;background:#902e46;color:#ffe5a6;font-size:23px}
+.letter{text-align:left;line-height:2;margin:25px 0}
+.letter p{margin-bottom:13px}
+.ending{color:#87552f;font-weight:bold}
+.final-card{max-width:570px;padding:35px 20px;border:1px solid #c49b58;border-radius:20px;background:#21152fdd;box-shadow:0 0 35px #b98a4833}
+.emoji{font-size:65px;margin:20px}
+.back{margin-top:25px}
+#fireworks{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:10}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:20;background:#3a284b;padding:12px 20px;border-radius:20px;display:none;color:#f6d58b;white-space:nowrap}
+@media(max-width:480px){.menu{flex-direction:column;width:100%}.menu button{width:100%}.card{padding:25px 18px}.castle{font-size:70px}}
+</style>
+</head>
+
+<body>
+<div id="stars"></div>
+<canvas id="fireworks"></canvas>
+<div id="toast"></div>
+
+<!-- PASSWORD SCREEN -->
+<section id="lock" class="screen active">
+ <div class="moon">☾</div>
+ <p class="eyebrow">A SECRET MAGICAL WORLD</p>
+ <div class="castle">🔐</div>
+ <h1 class="gold">A Little Surprise</h1>
+ <p class="description">Some magical doors open only with a secret key.</p>
+ <h3>Enter Your Secret PIN</h3>
+ <form onsubmit="unlock(event)">
+  <input id="pin" type="password" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off">
+  <br>
+  <button class="btn" type="submit">Unlock the Magic ✨</button>
+ </form>
+ <p id="error" style="color:#ff9caa;font-size:13px"></p>
+ <p class="small">A little surprise is waiting for you...</p>
+</section>
+
+<!-- WELCOME SCREEN -->
+<section id="welcome" class="screen">
+ <div class="moon">☾</div>
+ <p class="eyebrow">AN ENCHANTED SURPRISE AWAITS</p>
+ <div class="castle">🏰</div>
+ <h1>Welcome to</h1>
+ <h1 class="gold">Mahi's Wonderland</h1>
+ <p class="description">A little world of magic, happiness and golden lights, created especially for you.</p>
+ <div class="magic">🪄</div>
+ <button class="btn" onclick="show('home')">Open Your Surprise ✨</button>
+ <p class="small">A magical little gift, made with warmth.</p>
+</section>
+
+<!-- HOME -->
+<section id="home" class="screen">
+ <p class="eyebrow">LET THE MAGIC OF LIGHTS BEGIN</p>
+ <div class="castle">🏰</div>
+ <h1 class="gold">Happy Diwali</h1>
+ <h2>Mahi Ji 🪔</h2>
+ <p class="description">May your life shine brighter than a thousand diyas and your days be filled with happiness, laughter and beautiful memories.</p>
+ <div class="diyas"><span>🪔</span><span>✨</span><span>🪔</span></div>
+ <div class="menu">
+  <button onclick="show('letter')">💌 Special Letter</button>
+  <button onclick="show('wish')">🌟 Special Wishes</button>
+  <button onclick="show('celebrate');celebrate()">🎆 Magical Fireworks</button>
+ </div>
+ <p class="signature">With warm wishes, Amit ❤️</p>
+</section>
+
+<!-- LETTER -->
+<section id="letter" class="screen">
+ <div class="card">
+  <div class="wax">✦</div>
+  <p class="eyebrow">A LITTLE LETTER FROM THE HEART</p>
+  <h1>Dear Mahi Ji,</h1>
+  <div class="letter">
+   <p>Happy Diwali, Mahi Ji! 🪔❤️</p>
+   <p>Some people make ordinary moments feel special, and you are one of those people.</p>
+   <p>On this beautiful festival of lights, I just want to wish you endless happiness, countless smiles and lots of wonderful memories.</p>
+   <p>May every diya bring new hope into your life. May every dream you carry find its way towards becoming reality.</p>
+   <p>Thank you for being a lovely part of my memories. Keep smiling, keep shining and always stay happy.</p>
+   <p class="ending">May your life always be filled with a little extra magic! ✨</p>
+  </div>
+  <h3>With lots of good wishes,</h3>
+  <h2 class="gold">Amit ❤️</h2>
+ </div>
+ <button class="btn secondary back" onclick="show('home')">← Back to Wonderland</button>
+</section>
+
+<!-- WISHES -->
+<section id="wish" class="screen">
+ <div class="final-card">
+  <div class="emoji">🪔✨</div>
+  <p class="eyebrow">A LITTLE WISH FOR YOU</p>
+  <h1 class="gold">Dear Mahi Ji</h1>
+  <p class="description">May happiness find you in unexpected places. May kindness surround you, dreams inspire you and every new beginning bring something beautiful.</p>
+  <h2>Keep Shining! 🌟</h2>
+  <div class="emoji">❤️</div>
+  <p class="signature">Happy Diwali — Amit</p>
+ </div>
+ <button class="btn secondary back" onclick="show('home')">← Back to Wonderland</button>
+</section>
+
+<!-- CELEBRATION -->
+<section id="celebrate" class="screen">
+ <div class="final-card">
+  <div class="emoji">🎆</div>
+  <p class="eyebrow">THE NIGHT IS FULL OF MAGIC</p>
+  <h1 class="gold">Happy Diwali!</h1>
+  <p class="description">Here's to more smiles, more memories and brighter days ahead.</p>
+  <button class="btn" onclick="celebrate()">Launch More Magic ✨</button>
+  <div class="emoji">🪔💜🪔</div>
+  <h3>Made with best wishes</h3>
+  <h2 class="gold">Amit Gupta</h2>
+ </div>
+ <button class="btn secondary back" onclick="show('home')">← Back to Wonderland</button>
+</section>
+
+<script>
+// Magical stars
+const starBox=document.getElementById('stars');
+for(let i=0;i<100;i++){
+ const s=document.createElement('span');
+ s.className='star';s.textContent='✦';
+ s.style.left=Math.random()*100+'%';
+ s.style.top=Math.random()*100+'%';
+ s.style.fontSize=(Math.random()*12+5)+'px';
+ s.style.animationDelay=Math.random()*4+'s';
+ starBox.appendChild(s);
+}
+
+// PIN: 2802
+function unlock(e){
+ e.preventDefault();
+ const pin=document.getElementById('pin').value;
+ if(pin==='2802'){
+  document.getElementById('error').textContent='';
+  show('welcome');
+  toast('The magic door is open! ✨');
+ }else{
+  document.getElementById('error').textContent='Oops! Wrong PIN. Try again.';
+  document.getElementById('pin').value='';
+ }
+}
+
+// Screen navigation
+function show(id){
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ window.scrollTo(0,0);
+}
+
+// Toast
+function toast(message){
+ const t=document.getElementById('toast');
+ t.textContent=message;t.style.display='block';
+ setTimeout(()=>t.style.display='none',2500);
+}
+
+// Fireworks
+let particles=[],running=false;
+const canvas=document.getElementById('fireworks');
+const ctx=canvas.getContext('2d');
+
+function resize(){
+ canvas.width=window.innerWidth;
+ canvas.height=window.innerHeight;
+}
+resize();
+window.addEventListener('resize',resize);
+
+function burst(x,y){
+ for(let i=0;i<65;i++){
+  const a=Math.PI*2*Math.random();
+  const speed=Math.random()*4+1;
+  particles.push({
+   x,y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,
+   life:80+Math.random()*30,
+   color:['#ffd879','#f3a8ff','#ffffff','#ff9c79'][Math.floor(Math.random()*4)]
+  });
+ }
+}
+
+function animate(){
+ if(!running)return;
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+ particles.forEach(p=>{
+  p.x+=p.vx;p.y+=p.vy;p.vy+=0.025;p.life--;
+  ctx.globalAlpha=Math.max(0,p.life/100);
+  ctx.fillStyle=p.color;
+  ctx.beginPath();ctx.arc(p.x,p.y,2.5,0,Math.PI*2);ctx.fill();
+ });
+ ctx.globalAlpha=1;
+ particles=particles.filter(p=>p.life>0);
+ if(particles.length)requestAnimationFrame(animate);
+ else{
+  running=false;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+ }
+}
+
+function celebrate(){
+ if(running)return;
+ particles=[];
+ running=true;
+ for(let i=0;i<5;i++){
+  burst(Math.random()*canvas.width,Math.random()*canvas.height*.65);
+ }
+ animate();
+ toast('Sending magical Diwali wishes! 🎆');
+}
+</script>
+</body>
+</html>
